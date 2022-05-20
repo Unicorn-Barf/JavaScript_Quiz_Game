@@ -2,19 +2,27 @@ var startButton = $("#start-button");
 var gameH1 = $("#game-h1")
 var questEl = $('#question');
 var ansOl = $("#answers")
-var quizObj = [{question: 'Why?', true: 'because', wrong: ['no', 'yes', 'maybe']}];
+
+
+var quizIndex = 0;
+// Variables for right and wrong answers from user
+var correctInput = 0;
+var incorrectInput = 0;
 
 // Write a game init function for when start is pressed
 // create and append a p ol for questions and ans
 function gameInit() {
     // Remove start button
     startButton.css("display", "none");
-    displayQuestion(quizObj[0]);
+    displayQuestion(quizObj[quizIndex]);
 }
 
 
 // Function uses myObject parameter to display a question and answers
 function displayQuestion(myObject) {
+
+    // Display question in questEl
+    questEl.text(quizObj[quizIndex].question);
 
     // for loop to randomly order answers
     let order = Math.round(Math.random() * 3);
@@ -52,24 +60,38 @@ function displayQuestion(myObject) {
 // Write a Timer function for game
 // Timer function
 function timer() {
+    // Set total timer time seconds
     let timeLeft = 120;
-    // Make a timer element show on HTML
+    // Make a timer element show on HTML game-h1
     gameH1.text(`You have ${timeLeft} seconds left.`);
 
     var timeInterval = setInterval(function () {
 
-        if (timeLeft > 0 && check !== myWord){
+        if (timeLeft > 0 && quizIndex !== quizObj.length){
+            // Update timer message every interval
             gameH1.text(`You have ${timeLeft} seconds left.`);
             timeLeft--;
         }
         
-        // winning case
-        else if (check === myWord) {
+        // Finished questions or ran out of time
+        else if (timeLeft === 0 || quizIndex === quizObj.length) {
+            // set quix index, incorrect and correct input back to 0
+            // quizIndex = 0;
+            // correctInput = 0;
+            // incorrectInput = 0;
 
-        }
+            // delete question
+            questEl.text('');
+            // delete ansOl items
+            ansOl.html('');
+            // remove timer text
+            gameH1.text('FINISHED');
 
-        // Losing Case
-        else {
+            // put back start button
+            startButton.css("display", "block");
+            
+
+            // call a highscore function!
             clearInterval(timeInterval);
         }
     },1000);
@@ -91,7 +113,7 @@ function timer() {
 // Start button will initialize game
 startButton.on("click", function(event) {
     // make sure the start button is target of event with if statement
-    var element = event.target;
+    let element = event.target;
     if (element.matches("button") === true) {
         // Call functions to initialize game and timer
         gameInit();
@@ -100,3 +122,36 @@ startButton.on("click", function(event) {
 })
 
 // Write an event listener for answer selection
+ansOl.on("click", function(event) {
+    // Make sure an <li> was clicked
+    let element = event.target;
+    if (element.matches("li") === true) {
+
+
+        // Check the answer
+        if (element.textContent === quizObj[quizIndex].true) {
+            correctInput++;
+            // Increment the quiz object index
+            quizIndex++;
+        }
+        else if (element.textContent !== quizObj[quizIndex].true) {
+            incorrectInput++;
+            // Increment the quiz object index
+            quizIndex++;
+        }
+
+        // move on to next quiz question
+        if (quizIndex < quizObj.length) {
+            // delete question
+            questEl.text('');
+            // delete ansOl items
+            ansOl.html('');
+            displayQuestion(quizObj[quizIndex]);
+        }
+        // Finished all questions
+        else {
+
+        }
+
+    }
+})
