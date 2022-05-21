@@ -5,9 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <title>JS Quiz</title>
+    <title>Webdev Quiz</title>
 </head>
 <body>
+
+    <!-- Main Header -->
+    <h1 id="main-header">Web Dev Quiz Game</h1>
+
     <!-- Container div to be manipulated with JS -->
     <div id="main-container">
 
@@ -16,13 +20,14 @@
             <h1 id="game-h1"></h1>
             <p id="question"></p>
             <ol id="answers"></ol>
+            <p id="ans-alert"></p>
             <button id="start-button">START</button>
 
             <!-- Highscore form to enter Initials -->
             <form id="hs-form">
                 <h1>You've got a high score!</h1>
-                <label for="initials">Enter initials.</label>
-                <input type="text" id="initials" name="initials">
+                <label for="initials">Enter Initials!!</label>
+                <input type="text" id="initials" name="initials" placeholder="ex. NS">
                 <button id="hs-button">Submit</button>
             </form>
         </main>

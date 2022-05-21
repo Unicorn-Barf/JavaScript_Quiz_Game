@@ -1,20 +1,22 @@
 var startButton = $("#start-button");
-var gameH1 = $("#game-h1")
+var gameH1 = $("#game-h1");
 var questEl = $('#question');
-var ansOl = $("#answers")
-var hsForm = $("#hs-form")
-var highS
-var quizIndex = 0;
-// Variables for right and wrong answers from user
-var correctInput = 0;
-var incorrectInput = 0;
+var ansOl = $("#answers");
+var hsForm = $("#hs-form");
+var ansAlert = $("#ans-alert");
+var highS;
+var timeLeft;
+var quizIndex;
+var correctInput;
+var incorrectInput;
+
 
 // Load Highscores from local storage
 highS = JSON.parse(localStorage.getItem("high-scores"));
 if (highS !== null) {
     for (i=0; i<8 && i<highS.length; i++){
-        let scoreLi = $("<li>").css("text-decoration", "none");
-        scoreLi.text(`${highS[i].name} ${highS[i].score}`);
+        let scoreLi = $("<li>");
+        scoreLi.text(`${highS[i].name}: ${highS[i].score}`);
         $("#highscore").append(scoreLi);
     };
 }
@@ -25,9 +27,13 @@ if (highS !== null) {
 function gameInit() {
     // Load Highscores from local storage
     highS = JSON.parse(localStorage.getItem("high-scores"));
-    console.log(`this is the game init ${highS}`);
+    // Set scores back to 0
+    correctInput = 0;
+    incorrectInput = 0;
     // Init quiz index to 0
     quizIndex = 0;
+    // Set timer
+    timeLeft = 30;
     // Remove start button
     startButton.css("display", "none");
     // display first question
@@ -46,8 +52,8 @@ function displayQuestion(myObject) {
     // for loop to randomly order answers
     let order = Math.round(Math.random() * 3);
     for (i=0; i<3; i++) {
-        let ansTrue = $("<li>");
-        let ansWrong = $("<li>");
+        let ansTrue = $("<li>").addClass("li-answer");
+        let ansWrong = $("<li>").addClass("li-answer");
         // if statement to randomly place the true answer
         if (order === i && order < 3) {
             ansTrue.text(myObject.true);
@@ -75,8 +81,6 @@ function displayQuestion(myObject) {
 
 // Timer function
 function timer() {
-    // Set total timer time seconds
-    let timeLeft = 8;
     // Make a timer element show on HTML game-h1
     gameH1.text(`You have ${timeLeft} seconds left.`);
 
@@ -91,13 +95,9 @@ function timer() {
         // Finished questions or ran out of time
         else if (timeLeft === 0 || quizIndex === quizObj.length) {
 
-            // Call Highscore function if it is top 8 score
-            console.log(correctInput);
-
-
             // Check if not null, and call highScores if correctInput is a top 8 score
             if (highS !== null) {
-                if (highS.length < 8 || correctInput > highS[7]) {
+                if (highS.length < 8 || correctInput > highS[7].score) {
                     highScores();
                 }
             }
@@ -109,9 +109,11 @@ function timer() {
             };
 
             // delete question
-            questEl.text('');
+            questEl.text(`You got ${correctInput} answers right and ${incorrectInput} answers wrong.`);
             // delete ansOl items
             ansOl.html('');
+            // remove answer alert
+            ansAlert.text('');
             // remove timer text
             gameH1.text('FINISHED');
             // put back start button
@@ -136,7 +138,8 @@ $("#hs-form").on("click", "#hs-button", function (event) {
     event.preventDefault();
     // Get name value from initials input and store in variable name
     let name = $("#initials").val();
-    console.log(name);
+    // clear input field
+    $("#initials").text('');
     // Create an object with the name and corresponding score
     let myScoreObj = {
         name: name,
@@ -157,13 +160,11 @@ $("#hs-form").on("click", "#hs-button", function (event) {
             // Place value in order of highest to lowest score
             if (correctInput >= highS[i].score) {
                 highS.splice(i, 0, myScoreObj);
-                i = scoreIndex;
-                console.log("inside loop if statement");
+                break;
             }
             else if (i === highS.length - 1 && correctInput < highS[i].score) {
                 highS.push(myScoreObj);
-                i = scoreIndex;
-                console.log("inside loop else if statement");
+                break;
             }
         };
     };
@@ -177,12 +178,9 @@ $("#hs-form").on("click", "#hs-button", function (event) {
     $("#highscore").empty();
     for (i = 0; i < 8 && i < highS.length; i++) {
         let scoreLi = $("<li>").css("text-decoration", "none");
-        scoreLi.text(`${highS[i].name} ${highS[i].score}`);
+        scoreLi.text(`${highS[i].name}: ${highS[i].score}`);
         $("#highscore").append(scoreLi);
     };
-    // Set scores back to 0
-    correctInput = 0;
-    incorrectInput = 0;
 });
 
 
@@ -210,11 +208,17 @@ ansOl.on("click", function(event) {
             correctInput++;
             // Increment the quiz object index
             quizIndex++;
+            // alert for correct answer
+            ansAlert.text("That was CORRECT!");
         }
         else if (element.textContent !== quizObj[quizIndex].true) {
             incorrectInput++;
             // Increment the quiz object index
             quizIndex++;
+            // Alert wrong answer
+            ansAlert.text("That was WRONG!");
+            // subtract time from clock
+            timeLeft -= 5;
         }
 
         // move on to next quiz question

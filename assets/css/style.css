@@ -1,19 +1,122 @@
+/* Delete margins and border box sizing for all elements */
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Set page background color */
+body {
+    background-color: aliceblue;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+
+/* Set main container to flexbox */
 #main-container {
     display: flex;
     justify-content: space-around;
 }
 
+/* Main Header formatting */
+#main-header {
+    font-size: 35px;
+    width: 100%;
+    padding: 30px;
+    margin-bottom: 80px;
+    text-align: center;
+    color: white;
+    background-color: rgb(50, 50, 50);
+    border-bottom: 10px solid black;
+}
+/* Game container flexbox and 70% width */
 #game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 70%;
+    border: 5px solid black;
+    border-radius: 10px;
+    background-color: rgb(57, 31, 82);
+    color: white;
+    padding: 10px;
 }
 
+/* Add padding to game content */
+#game-h1, #question, #answers {
+    padding: 15px;
+}
+
+/* Increase question fontsize */
+#question {
+    font-size: 20px;
+}
+
+/* Make list numbers inside */
+#answers {
+    list-style-position: inside;
+}
+
+/* format answer list items */
+li.li-answer {
+    position: relative;
+    padding: 3px;
+    font-size: 20px;
+    margin: 5px;
+    background-color: aliceblue;
+    color: black;
+    border: 3px solid black;
+    border-radius: 4px;
+}
+
+/* Highlight answer on hover */
+li.li-answer:hover {
+    background-color: blue;
+    color: white;
+}
+
+/* format Answer Alerts */
+#ans-alert {
+    color: chartreuse;
+}
+
+/* format the highscore form */
+#hs-form {
+    margin: 25px;
+}
+
+#hs-form h1 {
+    margin: 15px;
+    color: chartreuse;
+}
+
+/* Highscore Container Card */
 #hs-container {
-    width: 30%;
+    text-align: center;
+    width: fit-content;
+    background-color: rgb(57, 31, 82);
+    color: white;
+    padding: 10px;
+    border: 5px solid black;
+    border-radius: 10px;
 }
 
 #hs-form {
     display: none;
+}
+
+/* Size compatibility for small screens */
+@media screen and (max-width: 992px) {
+
+    /* Change main content to column display */
+    #main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Add a margin top to highscore card */
+    #hs-container {
+        margin-top: 100px;
+    }
+
 }
