@@ -2,19 +2,38 @@ var startButton = $("#start-button");
 var gameH1 = $("#game-h1")
 var questEl = $('#question');
 var ansOl = $("#answers")
-
-
+var hsForm = $("#hs-form")
+var highS
 var quizIndex = 0;
 // Variables for right and wrong answers from user
 var correctInput = 0;
 var incorrectInput = 0;
 
+// Load Highscores from local storage
+highS = JSON.parse(localStorage.getItem("high-scores"));
+if (highS !== null) {
+    for (i=0; i<8 && i<highS.length; i++){
+        let scoreLi = $("<li>").css("text-decoration", "none");
+        scoreLi.text(`${highS[i].name} ${highS[i].score}`);
+        $("#highscore").append(scoreLi);
+    };
+}
+
+
 // Write a game init function for when start is pressed
 // create and append a p ol for questions and ans
 function gameInit() {
+    // Load Highscores from local storage
+    highS = JSON.parse(localStorage.getItem("high-scores"));
+    console.log(`this is the game init ${highS}`);
+    // Init quiz index to 0
+    quizIndex = 0;
     // Remove start button
     startButton.css("display", "none");
+    // display first question
     displayQuestion(quizObj[quizIndex]);
+    // start timer
+    timer();
 }
 
 
@@ -22,11 +41,11 @@ function gameInit() {
 function displayQuestion(myObject) {
 
     // Display question in questEl
-    questEl.text(quizObj[quizIndex].question);
+    questEl.text(myObject.question);
 
     // for loop to randomly order answers
     let order = Math.round(Math.random() * 3);
-    for (i = 0; i < 3; i++) {
+    for (i=0; i<3; i++) {
         let ansTrue = $("<li>");
         let ansWrong = $("<li>");
         // if statement to randomly place the true answer
@@ -36,7 +55,6 @@ function displayQuestion(myObject) {
             // access index of wrong answer and append to ol
             ansWrong.text(myObject.wrong[i]);
             ansOl.append(ansWrong);
-            console.log('if');
         }
         else if (order === 3 && i === 2) {
             // access index of wrong answer and append to ol
@@ -45,23 +63,20 @@ function displayQuestion(myObject) {
             // append true last for else case
             ansTrue.text(myObject.true);
             ansOl.append(ansTrue);
-            console.log('else if');
         }
         else {
             // access index of wrong answer and append to ol
             ansWrong.text(myObject.wrong[i]);
             ansOl.append(ansWrong);
-            console.log('else');
         }
     }
 }
 
 
-// Write a Timer function for game
 // Timer function
 function timer() {
     // Set total timer time seconds
-    let timeLeft = 120;
+    let timeLeft = 8;
     // Make a timer element show on HTML game-h1
     gameH1.text(`You have ${timeLeft} seconds left.`);
 
@@ -75,10 +90,23 @@ function timer() {
         
         // Finished questions or ran out of time
         else if (timeLeft === 0 || quizIndex === quizObj.length) {
-            // set quix index, incorrect and correct input back to 0
-            // quizIndex = 0;
-            // correctInput = 0;
-            // incorrectInput = 0;
+
+            // Call Highscore function if it is top 8 score
+            console.log(correctInput);
+
+
+            // Check if not null, and call highScores if correctInput is a top 8 score
+            if (highS !== null) {
+                if (highS.length < 8 || correctInput > highS[7]) {
+                    highScores();
+                }
+            }
+
+            // if highS is null, call highScore function
+            else if (highS === null) {
+                highScores();
+                console.log("This is the timer calling highScores()");
+            };
 
             // delete question
             questEl.text('');
@@ -86,26 +114,76 @@ function timer() {
             ansOl.html('');
             // remove timer text
             gameH1.text('FINISHED');
-
             // put back start button
             startButton.css("display", "block");
-            
+            // set variables back to zero
+            // set quizindex back to 0
+            quizIndex = 0;
 
-            // call a highscore function!
+            // clear timer function
             clearInterval(timeInterval);
         }
     },1000);
 }
 
+function highScores() {
+    // show the highscores form
+    hsForm.show();
+};
 
+// Highscores name input event listener
+$("#hs-form").on("click", "#hs-button", function (event) {
+    event.preventDefault();
+    // Get name value from initials input and store in variable name
+    let name = $("#initials").val();
+    console.log(name);
+    // Create an object with the name and corresponding score
+    let myScoreObj = {
+        name: name,
+        score: correctInput,
+    };
+    console.log(`my score object ${myScoreObj.name} ${myScoreObj.score}`);
+    // if no highscores exist in local storage
+    if (highS === null) {
+        highS = [myScoreObj];
+    }
 
-// write event listener for highscore app
+    // else highscores exist in local storage
+    else {
+        let scoreIndex = highS.length;
+        console.log("before loop");
+        // store name and score to highscores object
+        for (let i = 0; i < scoreIndex; i++) {
+            // Place value in order of highest to lowest score
+            if (correctInput >= highS[i].score) {
+                highS.splice(i, 0, myScoreObj);
+                i = scoreIndex;
+                console.log("inside loop if statement");
+            }
+            else if (i === highS.length - 1 && correctInput < highS[i].score) {
+                highS.push(myScoreObj);
+                i = scoreIndex;
+                console.log("inside loop else if statement");
+            }
+        };
+    };
 
-
-
-
-
-
+    // store to local storage
+    localStorage.clear();
+    localStorage.setItem("high-scores", JSON.stringify(highS));
+    console.log(highS);
+    hsForm.hide();
+    // update Highscore Container
+    $("#highscore").empty();
+    for (i = 0; i < 8 && i < highS.length; i++) {
+        let scoreLi = $("<li>").css("text-decoration", "none");
+        scoreLi.text(`${highS[i].name} ${highS[i].score}`);
+        $("#highscore").append(scoreLi);
+    };
+    // Set scores back to 0
+    correctInput = 0;
+    incorrectInput = 0;
+});
 
 
 
@@ -115,9 +193,8 @@ startButton.on("click", function(event) {
     // make sure the start button is target of event with if statement
     let element = event.target;
     if (element.matches("button") === true) {
-        // Call functions to initialize game and timer
+        // Call functions to initialize game
         gameInit();
-        timer();
     }
 })
 
@@ -147,11 +224,6 @@ ansOl.on("click", function(event) {
             // delete ansOl items
             ansOl.html('');
             displayQuestion(quizObj[quizIndex]);
-        }
-        // Finished all questions
-        else {
-
-        }
-
-    }
-})
+        };
+    };
+});

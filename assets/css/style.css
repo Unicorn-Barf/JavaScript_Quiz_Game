@@ -1,0 +1,19 @@
+#main-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+}
+
+#hs-container {
+    width: 30%;
+}
+
+#hs-form {
+    display: none;
+}
