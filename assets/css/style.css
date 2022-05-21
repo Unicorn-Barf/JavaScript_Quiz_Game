@@ -19,7 +19,7 @@ body {
 
 /* Main Header formatting */
 #main-header {
-    font-size: 35px;
+    font-size: 45px;
     width: 100%;
     padding: 30px;
     margin-bottom: 80px;
@@ -100,6 +100,12 @@ li.li-answer:hover {
     border-radius: 10px;
 }
 
+#highscore {
+    margin-top: 20px;
+    line-height: 1.5;
+}
+
+/* initially hide hs-form */
 #hs-form {
     display: none;
 }

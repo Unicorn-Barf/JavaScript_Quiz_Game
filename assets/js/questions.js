@@ -34,4 +34,19 @@ var quizObj = [
     true: "Enter window into the console log.",
     wrong: ["go to home depot", "retrieve it from the DOM", ".window()"]
 },
+{
+    question: "Use ______ to add classes on a jQuery element.",
+    true: ".addClass()",
+    wrong: [".classIs()", ".addAttribute()", ".getAttribute()"]
+},
+{
+    question: "What is the all selector for HTML elements?",
+    true: "*",
+    wrong: ["#", "!", "@"]
+},
+{
+    question: "A array _____ is function stored in the array _____. ",
+    true: "method, prototype",
+    wrong: ["prototype, method", "method, html", "method, format"]
+},
 ];

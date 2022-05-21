@@ -33,7 +33,7 @@ function gameInit() {
     // Init quiz index to 0
     quizIndex = 0;
     // Set timer
-    timeLeft = 30;
+    timeLeft = 60;
     // Remove start button
     startButton.css("display", "none");
     // display first question
@@ -105,7 +105,6 @@ function timer() {
             // if highS is null, call highScore function
             else if (highS === null) {
                 highScores();
-                console.log("This is the timer calling highScores()");
             };
 
             // delete question
@@ -117,7 +116,8 @@ function timer() {
             // remove timer text
             gameH1.text('FINISHED');
             // put back start button
-            startButton.css("display", "block");
+            startButton.css("display", "block")
+                .text('Try Again');
             // set variables back to zero
             // set quizindex back to 0
             quizIndex = 0;
@@ -145,7 +145,7 @@ $("#hs-form").on("click", "#hs-button", function (event) {
         name: name,
         score: correctInput,
     };
-    console.log(`my score object ${myScoreObj.name} ${myScoreObj.score}`);
+
     // if no highscores exist in local storage
     if (highS === null) {
         highS = [myScoreObj];
@@ -154,7 +154,6 @@ $("#hs-form").on("click", "#hs-button", function (event) {
     // else highscores exist in local storage
     else {
         let scoreIndex = highS.length;
-        console.log("before loop");
         // store name and score to highscores object
         for (let i = 0; i < scoreIndex; i++) {
             // Place value in order of highest to lowest score
@@ -172,7 +171,6 @@ $("#hs-form").on("click", "#hs-button", function (event) {
     // store to local storage
     localStorage.clear();
     localStorage.setItem("high-scores", JSON.stringify(highS));
-    console.log(highS);
     hsForm.hide();
     // update Highscore Container
     $("#highscore").empty();
@@ -231,3 +229,4 @@ ansOl.on("click", function(event) {
         };
     };
 });
+
