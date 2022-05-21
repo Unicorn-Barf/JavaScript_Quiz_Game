@@ -21,7 +21,9 @@
 ​
 ### The challenge
 ​
-This challenge involved building a coding quiz game from scratch using HTML, CSS, and JavaScript.  The challenge was a great way to practice doing a coding assessment that could be assigned to me during an interview.  My coding quiz game runs dynamically, takes user input, and utilizes local storage to keep track of highscores.
+This challenge involved building a coding quiz game from scratch using HTML, CSS, and JavaScript.  The challenge was a great way to practice doing a coding assessment that could be assigned to me during a job interview.  My coding quiz game runs dynamically, takes user input, and utilizes local storage to keep track of highscores.  
+  
+Some features include: dynamically reading/writing using local storage and user input, timer function, accessing and manipulating an array of objects, and multiple event listener functions.
 ​
 ### User Story
 ​

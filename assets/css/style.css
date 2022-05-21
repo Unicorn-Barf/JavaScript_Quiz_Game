@@ -28,6 +28,18 @@ body {
     background-color: rgb(50, 50, 50);
     border-bottom: 10px solid black;
 }
+
+/* format start button and highscore button */
+#start-button, #hs-button {
+    font-size: 20px;
+    padding: 5px;
+    background-color: aliceblue;
+    color: black;
+    border: 3px solid black;
+    border-radius: 4px;
+
+}
+
 /* Game container flexbox and 70% width */
 #game-container {
     display: flex;
@@ -69,7 +81,7 @@ li.li-answer {
 }
 
 /* Highlight answer on hover */
-li.li-answer:hover {
+li.li-answer:hover, #start-button:hover, #hs-button:hover {
     background-color: blue;
     color: white;
 }
