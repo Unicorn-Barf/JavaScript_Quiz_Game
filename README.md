@@ -61,8 +61,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 ​
 ### Links
 ​
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [https://github.com/Unicorn-Barf/JavaScript_Quiz_Game](https://github.com/Unicorn-Barf/JavaScript_Quiz_Game)
+- Live Site URL: [https://unicorn-barf.github.io/JavaScript_Quiz_Game/](https://unicorn-barf.github.io/JavaScript_Quiz_Game/)
 ​
 ## My process
 ​
@@ -144,11 +144,10 @@ I am interested in refactoring my code throughout as well as making the UI more 
 ​
 ### Useful resources
 ​
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-​
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
-​
+- [Removing HTML dynamically](https://www.geeksforgeeks.org/how-to-remove-an-html-element-using-javascript/) - This was a great reference to show how to remove HTML elements dynamically using JavaScript.
+- [Splice()](https://flaviocopes.com/how-to-add-item-to-array-javascript/#:~:text=You%20want%20to%20explicitly%20add,()%20method%20of%20an%20array.) - This is a concise and basic explanation of how to use the splic() array method to insert a new value at a specific index of an array.
+- [Window.localStorage MDN](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) - MDN's documentation on how to read and write to local storage helped me effectively store and read my highscores data.
+
 ## Author
 ​
 **Nolan Spence**
